@@ -1045,6 +1045,7 @@ if (introStart && introModal) {
   introStart.addEventListener('click', () => {
     introModal.classList.add('hidden');
     playSound(startSound);
+    setTimeout(() => playSound(startSound), 1800);
     startCountdown();
   });
 }
