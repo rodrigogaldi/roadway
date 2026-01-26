@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Roadway Training</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="hud">
+      <div class="brand">Roadway Training</div>
+    </div>
+
+    <canvas id="game"></canvas>
+    <div id="lap-time" class="lap-time">Tempo de volta 00:00.0</div>
+    <div id="countdown" class="countdown hidden" aria-live="polite"></div>
+    <audio id="countdown-beep" src="sounds/beep.mp3" preload="auto"></audio>
+    <audio id="countdown-go" src="sounds/go.mp3" preload="auto"></audio>
+    <audio id="start-sound" src="sounds/start.mp3" preload="auto"></audio>
+    <audio id="engine-sound" src="sounds/engine.mp3" preload="auto" loop></audio>
+
+    <div id="intro-modal" class="modal" role="dialog" aria-modal="true">
+      <div class="intro-card">
+        <div class="intro-content">
+          <h2>Orientacoes do jogo</h2>
+          <ul>
+            <li>Use as setas do teclado para dirigir o carrinho.</li>
+            <li>Ao chegar nas paradas, leia as instrucoes e continue.</li>
+          </ul>
+          <button id="intro-start" class="primary">Comecar</button>
+        </div>
+        <div class="intro-media">
+          <img src="imgs/start.jpeg" alt="Instrucao inicial do jogo" />
+        </div>
+      </div>
+    </div>
+
+    <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h2 id="modal-title">Parada</h2>
+          <button id="modal-close" class="ghost">Continuar</button>
+        </div>
+        <div id="modal-body" class="modal-body"></div>
+      </div>
+    </div>
+
+    <div id="results-overlay" class="results-overlay hidden" role="dialog" aria-modal="true">
+      <div class="results-card">
+        <h2>Resultados</h2>
+        <div class="results-total">
+          <span>Tempo total</span>
+          <strong id="results-total-time">00:00.0</strong>
+        </div>
+        <div id="results-partials" class="results-partials"></div>
+        <div class="results-actions">
+          <button id="results-restart" class="primary">Jogar novamente</button>
+          <button id="results-exit" class="ghost">Sair</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="end-screen" class="end-screen hidden">
+      <div class="end-card">
+        <div class="logo">LOGO</div>
+        <p>Obrigado por participar do treinamento.</p>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
