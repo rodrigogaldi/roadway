@@ -22,6 +22,13 @@ const endScreen = document.getElementById('end-screen');
 
 const keyState = new Set();
 
+const carSprite = new Image();
+carSprite.src = 'imgs/car.png';
+let carSpriteReady = false;
+carSprite.addEventListener('load', () => {
+  carSpriteReady = true;
+});
+
 const stopData = [
   {
     id: 'p1',
@@ -720,14 +727,27 @@ function drawCar() {
   ctx.translate(screen.x, screen.y);
   ctx.rotate(Math.atan2(base.ty, base.tx));
 
-  ctx.fillStyle = '#f25f5c';
-  ctx.strokeStyle = '#0f1116';
-  ctx.lineWidth = 2 * state.view.scale;
-  ctx.fillRect(-18 * state.view.scale, -10 * state.view.scale, 36 * state.view.scale, 20 * state.view.scale);
-  ctx.strokeRect(-18 * state.view.scale, -10 * state.view.scale, 36 * state.view.scale, 20 * state.view.scale);
+  if (carSpriteReady) {
+    const targetWidth = 132 * state.view.scale;
+    const ratio = carSprite.naturalWidth / carSprite.naturalHeight || 1;
+    const targetHeight = targetWidth / ratio;
+    ctx.drawImage(
+      carSprite,
+      -targetWidth / 2,
+      -targetHeight / 2,
+      targetWidth,
+      targetHeight
+    );
+  } else {
+    ctx.fillStyle = '#f25f5c';
+    ctx.strokeStyle = '#0f1116';
+    ctx.lineWidth = 2 * state.view.scale;
+    ctx.fillRect(-18 * state.view.scale, -10 * state.view.scale, 36 * state.view.scale, 20 * state.view.scale);
+    ctx.strokeRect(-18 * state.view.scale, -10 * state.view.scale, 36 * state.view.scale, 20 * state.view.scale);
 
-  ctx.fillStyle = 'rgba(0,0,0,0.3)';
-  ctx.fillRect(-6 * state.view.scale, -8 * state.view.scale, 12 * state.view.scale, 16 * state.view.scale);
+    ctx.fillStyle = 'rgba(0,0,0,0.3)';
+    ctx.fillRect(-6 * state.view.scale, -8 * state.view.scale, 12 * state.view.scale, 16 * state.view.scale);
+  }
 
   ctx.restore();
 }
