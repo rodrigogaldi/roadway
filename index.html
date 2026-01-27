@@ -19,11 +19,20 @@
     <audio id="start-sound" src="sounds/start.mp3" preload="auto"></audio>
     <audio id="engine-sound" src="sounds/engine.mp3" preload="auto" loop></audio>
 
+    <div id="orientation-overlay" class="orientation-overlay" aria-hidden="true">
+      <div class="orientation-card">
+        <img class="orientation-logo" src="imgs/logo.jpeg" alt="Logo Roadway" />
+        <strong>Gire o celular</strong>
+        <span>Para uma melhor experiencia, use o modo paisagem.</span>
+      </div>
+    </div>
+
+    <button id="accelerate-button" class="accelerate-button" aria-label="Acelerar">
+      <img src="imgs/button_normal.png" alt="" />
+    </button>
+
     <div id="intro-modal" class="modal" role="dialog" aria-modal="true">
       <div class="intro-card">
-        <div class="intro-logo">
-          <img src="imgs/logo.jpeg" alt="Logo Roadway" />
-        </div>
         <div class="intro-content">
           <h2>Orientacoes do jogo</h2>
           <ul>
@@ -33,7 +42,7 @@
           <button id="intro-start" class="primary">Comecar</button>
         </div>
         <div class="intro-media">
-          <img src="imgs/start.jpeg" alt="Instrucao inicial do jogo" />
+          <img src="imgs/logo.jpeg" alt="Logo Roadway" />
         </div>
       </div>
     </div>

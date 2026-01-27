@@ -2,6 +2,7 @@ const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
 
 const modal = document.getElementById('modal');
+const modalHeader = document.querySelector('#modal .modal-header');
 const modalTitle = document.getElementById('modal-title');
 const modalBody = document.getElementById('modal-body');
 const modalClose = document.getElementById('modal-close');
@@ -19,8 +20,10 @@ const resultsPartials = document.getElementById('results-partials');
 const resultsRestart = document.getElementById('results-restart');
 const resultsExit = document.getElementById('results-exit');
 const endScreen = document.getElementById('end-screen');
+const accelButton = document.getElementById('accelerate-button');
 
 const keyState = new Set();
+let accelHeld = false;
 
 const carSprite = new Image();
 carSprite.src = 'imgs/car.png';
@@ -806,6 +809,10 @@ function openStopModal(stop) {
   modalTitle.textContent = stop.name || 'Parada';
   modalBody.innerHTML = '';
   modalClose.style.display = '';
+  if (modalHeader) {
+    const existingResults = modalHeader.querySelector('.results-button');
+    if (existingResults) existingResults.remove();
+  }
 
   if (stop.text) {
     const label = document.createElement('div');
@@ -839,23 +846,19 @@ function openStopModal(stop) {
   if (stop.id === lastStopId) {
     modalClose.style.display = 'none';
 
-    const footer = document.createElement('div');
-    footer.className = 'modal-footer';
-
-    const actions = document.createElement('div');
-    actions.className = 'modal-actions';
-
     const resultsButton = document.createElement('button');
-    resultsButton.className = 'primary';
+    resultsButton.className = 'primary results-button';
     resultsButton.textContent = 'Ver resultados';
     resultsButton.addEventListener('click', () => {
       closeStopModal();
       showResultsOverlay();
     });
 
-    actions.appendChild(resultsButton);
-    footer.appendChild(actions);
-    modalBody.appendChild(footer);
+    if (modalHeader) {
+      modalHeader.appendChild(resultsButton);
+    } else {
+      modalBody.appendChild(resultsButton);
+    }
   }
 
   modal.classList.remove('hidden');
@@ -901,7 +904,7 @@ function resetGame() {
 function update(dt) {
   if (state.paused || state.modalOpen) return;
 
-  const up = keyState.has('ArrowUp');
+  const up = keyState.has('ArrowUp') || accelHeld;
   const down = keyState.has('ArrowDown');
   const left = keyState.has('ArrowLeft');
   const right = keyState.has('ArrowRight');
@@ -1030,6 +1033,32 @@ window.addEventListener('keydown', (event) => {
 window.addEventListener('keyup', (event) => {
   keyState.delete(event.key);
 });
+
+if (accelButton) {
+  const setAccelHeld = (next) => {
+    accelHeld = next;
+    accelButton.classList.toggle('is-pressed', accelHeld);
+  };
+
+  const holdAccel = (event) => {
+    event.preventDefault();
+    if (typeof accelButton.setPointerCapture === 'function') {
+      accelButton.setPointerCapture(event.pointerId);
+    }
+    setAccelHeld(true);
+  };
+
+  const releaseAccel = (event) => {
+    if (event) event.preventDefault();
+    setAccelHeld(false);
+  };
+
+  accelButton.addEventListener('pointerdown', holdAccel);
+  accelButton.addEventListener('pointerup', releaseAccel);
+  accelButton.addEventListener('pointercancel', releaseAccel);
+  accelButton.addEventListener('pointerleave', releaseAccel);
+  window.addEventListener('blur', releaseAccel);
+}
 
 canvas.addEventListener('mousedown', (event) => {
   if (!state.recording.enabled) return;

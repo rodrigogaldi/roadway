@@ -115,10 +115,78 @@ body {
   z-index: 10;
   background: rgba(5, 8, 13, 0.7);
   backdrop-filter: blur(6px);
+  overflow: auto;
+  padding: 24px;
 }
 
 .modal.hidden {
   display: none;
+}
+
+.orientation-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 40;
+  background: rgba(5, 8, 13, 0.88);
+  backdrop-filter: blur(8px);
+  text-align: center;
+  padding: 24px;
+}
+
+.orientation-card {
+  display: grid;
+  gap: 12px;
+  padding: 28px 32px;
+  border-radius: 20px;
+  background: rgba(10, 13, 19, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: var(--shadow);
+  max-width: 320px;
+  justify-items: center;
+}
+
+.orientation-logo {
+  width: 60%;
+  height: auto;
+  object-fit: contain;
+}
+
+.orientation-card strong {
+  font-size: 20px;
+  letter-spacing: 0.05em;
+}
+
+.orientation-card span {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.accelerate-button {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 5;
+  background: transparent;
+  border: none;
+  padding: 0;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35);
+  touch-action: none;
+  user-select: none;
+}
+
+.accelerate-button img {
+  width: min(120px, 24vw);
+  height: auto;
+  display: block;
+}
+
+.accelerate-button.is-pressed,
+.accelerate-button:active {
+  transform: translateY(2px);
+  filter: brightness(0.95);
 }
 
 .intro-card {
@@ -134,19 +202,8 @@ body {
   gap: 24px;
   text-align: left;
   align-items: center;
-}
-
-.intro-logo {
-  grid-column: 1 / -1;
-  display: flex;
-  justify-content: center;
-}
-
-.intro-logo img {
-  height: 150px;
-  width: auto;
-  max-width: 80%;
-  object-fit: contain;
+  max-height: 80vh;
+  overflow: auto;
 }
 
 .intro-content {
@@ -187,20 +244,23 @@ body {
 .modal-card {
   width: 70vw;
   height: 70vh;
+  max-height: 80vh;
   background: var(--panel);
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: var(--shadow);
   border-radius: 18px;
   padding: 28px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 20px;
+  overflow: hidden;
 }
 
 .modal-header {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
   gap: 12px;
 }
 
@@ -210,13 +270,14 @@ body {
 }
 
 .modal-body {
-  flex: 1;
   overflow: auto;
   display: grid;
   grid-template-columns: 1fr;
   gap: 16px;
   font-size: 18px;
   line-height: 1.5;
+  min-width: 0;
+  min-height: 0;
 }
 
 .modal-footer {
@@ -382,13 +443,21 @@ button.ghost {
 
 @media (max-width: 720px) {
   .modal-card {
-    width: 90vw;
-    height: 80vh;
+    width: 80vh;
+    height: 90vh;
+    max-height: 90vh;
     padding: 20px;
+    grid-template-columns: 160px 1fr;
+  }
+
+  .accelerate-button {
+    right: 18px;
+    bottom: 18px;
   }
 
   .intro-card {
     grid-template-columns: 1fr;
+    max-height: 90vh;
   }
 
   .intro-media {
@@ -402,5 +471,11 @@ button.ghost {
 
   .brand {
     font-size: 16px;
+  }
+}
+
+@media (orientation: portrait) and (max-width: 900px) {
+  .orientation-overlay {
+    display: flex;
   }
 }
