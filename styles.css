@@ -130,9 +130,23 @@ body {
   padding: 32px;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+  grid-template-rows: auto 1fr;
   gap: 24px;
   text-align: left;
   align-items: center;
+}
+
+.intro-logo {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+}
+
+.intro-logo img {
+  height: 150px;
+  width: auto;
+  max-width: 80%;
+  object-fit: contain;
 }
 
 .intro-content {
